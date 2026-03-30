@@ -3,183 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpikeBoard ID - Free Trading Platform</title>
+    <title>SpikeCute ID - Market Lucu</title>
     <style>
-        /* Основные стили в стиле The Spike */
         :root {
-            --bg-dark: #0a081f;
-            --card-bg: rgba(27, 22, 66, 0.85); /* Полупрозрачный для фона */
-            --accent: #00f2ff; /* Яркий неон */
-            --text: #ffffff;
-            --border: #3d348b;
-            --success: #00ff88;
+            /* Пастельная, "милая" палитра */
+            --bg: #fdf2f8; /* Нежно-розовый фон */
+            --accent: #06b6d4; /* Яркий бирюзовый (неон) */
+            --card: #ffffff; /* Белые карточки */
+            --text-dark: #1e293b; /* Темный текст для читаемости */
+            --price: #16a34a; /* Зеленый для цены */
+            --neon-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
         }
-
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding-bottom: 80px;
-            color: var(--text);
-            /* ФОН В СТИЛЕ THE SPIKE (Площадка + Персонажи) */
-            background-color: var(--bg-dark);
+        body { 
+            margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text-dark); padding-bottom: 80px;
+            /* КАСТОМНЫЙ ФОН С ЧИБИ-ПЕРСОНАЖАМИ (Пример ссылки, нужно заменить на реальную) */
             background-image: 
-                linear-gradient(rgba(10, 8, 31, 0.8), rgba(10, 8, 31, 0.95)), /* Затемнение */
-                url('https://i.ytimg.com/vi/SnduVMDf0X8/maxresdefault.jpg'); /* Изображение из игры */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+                linear-gradient(rgba(253, 242, 248, 0.8), rgba(253, 242, 248, 0.95)), /* Легкое затемнение */
+                url('https://cdna.artstation.com/p/assets/images/images/051/365/860/large/art-by-jio-the-spike-characters-chibi.jpg?1657106096'); /* Пример коллажа чибиков */
+            background-size: cover; background-attachment: fixed; background-position: center;
+        }
+        header { text-align: center; padding: 20px 15px; background: rgba(255, 255, 255, 0.9); border-bottom: 3px solid var(--accent); position: sticky; top: 0; z-index: 100; box-shadow: var(--neon-shadow); border-radius: 0 0 20px 20px; }
+        h1 { margin: 0; font-size: 1.4rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; text-shadow: var(--neon-shadow); }
+
+        /* Сетка как в OLX (Милая версия) */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .olx-card { 
+            background: var(--card); border-radius: 18px; overflow: hidden; border: 1px solid #e2e8f0;
+            display: flex; flex-direction: column; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .olx-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(6, 182, 212, 0.3); }
+        .img-placeholder { width: 100%; height: 130px; background: #e0f2fe; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent); border-bottom: 1px solid #e2e8f0; }
+        .card-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between;}
+        .card-title { font-size: 0.9rem; font-weight: 600; margin: 0; color: var(--text-dark); height: 38px; overflow: hidden; line-height: 1.2; }
+        .card-price { color: var(--price); font-size: 1.1rem; font-weight: 700; margin: 8px 0; }
+        .card-btn { 
+            width: 100%; padding: 10px; background: var(--accent); border: none; border-radius: 10px; 
+            font-weight: bold; font-size: 0.8rem; color: #fff; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(6, 182, 212, 0.3);
         }
 
-        header {
-            text-align: center;
-            padding: 15px;
-            background: rgba(22, 18, 61, 0.9);
-            border-bottom: 2px solid var(--accent);
-            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
-        }
+        /* Профиль (Милый) */
+        .profile-header { text-align: center; padding: 40px 20px; background: #fff; border-radius: 25px; margin: 20px; border: 2px dashed var(--accent); box-shadow: var(--neon-shadow); }
+        .avatar { width: 90px; height: 90px; background: #e0f2fe; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--accent); border: 3px solid var(--accent); }
 
-        header h1 {
-            font-size: 1.2rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            text-shadow: 0 0 10px var(--accent);
-        }
+        /* Форма (Милая) */
+        .view { display: none; padding: 15px; box-sizing: border-box; }
+        .active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Кнопка "Написать" - стиль неон */
-        .contact-btn {
-            display: block;
-            width: 100%;
-            padding: 10px 0;
-            background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            transition: all 0.3s;
-            text-transform: uppercase;
+        .form-box { background: #fff; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .form-box input, .form-box textarea { 
+            width: 100%; padding: 14px; margin: 10px 0; background: #f8fafc; 
+            border: 1px solid #e2e8f0; color: var(--text-dark); border-radius: 10px; box-sizing: border-box; font-size: 0.9rem;
         }
+        .form-box input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1); }
 
-        .contact-btn:hover {
-            background: var(--accent);
-            color: #000;
-            box-shadow: 0 0 15px var(--accent);
+        /* Анимация левитации с "блестками" */
+        .ball-float {
+            font-size: 3rem; margin-top: 60px; display: inline-block;
+            animation: floatBall 3s ease-in-out infinite;
+            position: relative;
         }
-
-        /* Форма отправки */
-        .view { display: none; padding: 20px; box-sizing: border-box; }
-        .active { display: block; }
-
-        .form-box {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            backdrop-filter: blur(5px);
+        @keyframes floatBall { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-25px); } }
+        .ball-float::after {
+            content: "✨"; position: absolute; font-size: 1rem; top: -10px; right: -15px; animation: sparkle 2s infinite; opacity: 0;
         }
+        @keyframes sparkle { 0%, 100% { opacity: 0; } 50% { opacity: 1; transform: scale(1.2); } }
 
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(10, 8, 31, 0.6);
-            border: 1px solid var(--border);
-            color: #fff;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 0.9rem;
-        }
-
-        input:focus, textarea:focus {
-            border-color: var(--accent);
-            outline: none;
-        }
-
-        /* Нижнее меню навигации */
-        nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: rgba(22, 18, 61, 0.95);
-            display: flex;
-            border-top: 2px solid var(--border);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-        }
-
-        nav div {
-            flex: 1;
-            text-align: center;
-            padding: 15px 0;
-            cursor: pointer;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255,255,255,0.6);
-            transition: 0.3s;
-        }
-
-        nav div.nav-active {
-            color: var(--accent);
-            font-weight: bold;
-            border-top: 2px solid var(--accent);
-            margin-top: -2px; /* Чтобы border перекрывал основной */
-        }
+        /* Меню (Pastel) */
+        nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: rgba(255,255,255,0.95); display: flex; border-top: 2px solid #e2e8f0; backdrop-filter: blur(10px); z-index: 100; border-radius: 20px 20px 0 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.03); }
+        nav div { flex: 1; text-align: center; padding-top: 15px; font-size: 0.8rem; cursor: pointer; color: #64748b; font-weight: 500; }
+        nav div.nav-active { color: var(--accent); font-weight: 700; text-shadow: var(--neon-shadow); }
+        nav div span { display: block; font-size: 1.2rem; margin-bottom: 3px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>SPIKEBOARD ID</h1>
-    <p style="font-size: 0.7rem; margin: 5px 0 0 0; opacity: 0.8; color: #eee;">P2P Trading • No Fees • No Middleman</p>
+    <h1>SPIKECUTE ID</h1>
+    <div style="font-size: 0.7rem; color: #64748b; margin-top: 3px;">Pasar Lucu The Spike</div>
 </header>
 
 <div id="market" class="view active">
-    <div style="text-align: center; padding: 50px 20px; color: #bbb;">
-        <p style="font-size: 3rem; margin: 0;">🏐</p>
-        <p style="font-size: 0.9rem;">Market is empty.<br>Be the first to post your account!</p>
+    <div class="market-grid">
+        <div class="olx-card">
+            <div class="img-placeholder">📸</div>
+            <div class="card-info">
+                <div>
+                    <p class="card-title">Nishikawa S+ Max</p>
+                    <p style="font-size: 0.7rem; color: #64748b; margin: 0;">Asia Server • Level 150</p>
+                </div>
+                <div>
+                    <p class="card-price">Rp 150.000</p>
+                    <button class="card-btn">CHAT PENJUAL</button>
+                </div>
+            </div>
+        </div>
+        <div class="olx-card">
+            <div class="img-placeholder">📸</div>
+            <div class="card-info">
+                <div>
+                    <p class="card-title">Sohee Start Acc</p>
+                    <p style="font-size: 0.7rem; color: #64748b; margin: 0;">5000 Balls • New</p>
+                </div>
+                <div>
+                    <p class="card-price">Rp 55.000</p>
+                    <button class="card-btn">CHAT PENJUAL</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div id="add" class="view">
     <div class="form-box">
-        <h2 style="text-align:center; font-size: 1.1rem; color: var(--accent); margin-top: 0;">POST YOUR ACCOUNT</h2>
-        
-        <input type="text" placeholder="Account Title (e.g., S+ Rank Nishikawa Max)">
-        <input type="number" placeholder="Price in IDR (e.g., 100000)">
-        
-        <input type="text" placeholder="Your Contact Link (Telegram/WhatsApp)">
-        
-        <textarea placeholder="Describe your account (Rank, Characters, Level, Gems, Balls...)" rows="5"></textarea>
-        
-        <label style="font-size: 0.8rem; color: var(--accent); display: block; margin-top: 10px;">Attach Account Screenshots (Max 5):</label>
-        <input type="file" accept="image/*" multiple style="background: transparent; border: none; padding: 10px 0;">
-        
-        <button style="width:100%; padding: 15px; background: var(--success); color: #000; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; margin-top: 20px; text-transform: uppercase; cursor: pointer;">SUBMIT AD NOW</button>
+        <h2 style="margin-top: 0; color: var(--accent); text-align: center; text-transform: uppercase;">Jual Akun Lucu</h2>
+        <input type="text" placeholder="Nama Akun (contoh: Nishikawa S+ Max)">
+        <input type="text" placeholder="Harga (contoh: Rp 100.000)">
+        <input type="text" placeholder="Link WhatsApp/Telegram">
+        <textarea placeholder="Deskripsi: Rank, Gems, Balls, dsb..." rows="4"></textarea>
+        <p style="font-size: 0.8rem; margin: 5px 0; color: #64748b;">Upload Foto Bukti (Maks 5):</p>
+        <input type="file" multiple style="border: none; background: transparent; padding: 0;">
+        <button style="width:100%; padding: 15px; background: var(--price); color: #fff; border:none; border-radius: 12px; font-weight:700; margin-top: 15px; text-transform: uppercase; font-size: 1rem; box-shadow: 0 4px 6px rgba(22, 163, 74, 0.3);">PASANG IKLAN</button>
     </div>
 </div>
 
-<nav>
-    <div onclick="show('market')" id="n-market" class="nav-active">🛒 MARKET</div>
-    <div onclick="show('add')" id="n-add">➕ POST AD</div>
-</nav>
-
-<script>
-    function show(id) {
-        // Переключение страниц
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        
-        // Переключение активного пункта меню
-        document.querySelectorAll('nav div').forEach(n => n.classList.remove('nav-active'));
-        document.getElementById('n-'+id).classList.add('nav-active');
-    }
-</script>
-
-</body>
-</html>
+<div id="profile" class="view">
+    <div class="profile-header">
+        <div class="avatar">🐱</div>
+        <h2 style="margin: 0; color: var(--text-dark);">Kawaii Spiker</h2>
+        <p style="font-size: 0.8rem; color: var(--accent);">
