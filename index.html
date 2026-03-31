@@ -3,116 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpikeCute ID</title>
+    <title>SpikeMarket ID</title>
     <style>
-        :root {
-            --pink: #ffafcc;
-            --blue: #a2d2ff;
-            --accent: #ff006e;
-            --white: #ffffff;
-        }
-        body { 
-            margin: 0; font-family: 'Arial', sans-serif; background: #fdf2f8; 
-            background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://i.pinimg.com/originals/f3/8c/7e/f38c7e42d7b1d4c8b2a3a5f8e5f1a5f1.jpg');
-            background-size: cover; background-attachment: fixed; padding-bottom: 80px;
-        }
-        header { background: var(--white); padding: 15px; text-align: center; border-bottom: 4px solid var(--pink); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { margin: 0; color: var(--accent); font-size: 1.5rem; text-shadow: 2px 2px #ffc8dd; }
+        :root { --pink: #ffafcc; --accent: #ff006e; --bg: #fdf2f8; }
+        body { margin: 0; font-family: sans-serif; background: var(--bg); padding-bottom: 80px; }
+        
+        /* Шапка */
+        header { background: #fff; padding: 15px; text-align: center; border-bottom: 3px solid var(--pink); sticky; top: 0; z-index: 100; }
+        h1 { margin: 0; color: var(--accent); font-size: 1.2rem; }
 
-        /* Кнопки переключения (Вкладки) */
-        .view { display: none; padding: 15px; }
-        .active { display: block; animation: pop 0.3s ease; }
-        @keyframes pop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .view { display: none; padding: 10px; }
+        .active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Дизайн карточек (Как в OLX) */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { background: var(--white); border-radius: 15px; overflow: hidden; border: 2px solid var(--pink); }
-        .card-img { width: 100%; height: 100px; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
-        .card-body { padding: 10px; }
-        .price { color: #2ecc71; font-weight: bold; font-size: 1.1rem; }
-
-        /* Профиль */
-        .profile-card { background: var(--white); border-radius: 20px; padding: 20px; text-align: center; border: 3px dashed var(--pink); margin-top: 20px; }
-        .avatar { width: 80px; height: 80px; background: var(--blue); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 4px solid var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
-        /* Нижнее меню (НАВИГАЦИЯ) */
-        nav { position: fixed; bottom: 0; width: 100%; background: var(--white); display: flex; border-top: 3px solid var(--pink); height: 70px; z-index: 1000; }
-        nav div { flex: 1; text-align: center; padding-top: 10px; font-weight: bold; font-size: 0.8rem; color: #777; cursor: pointer; }
-        nav div.nav-active { color: var(--accent); }
-        nav div span { display: block; font-size: 1.5rem; }
+        /* Карточки как в OLX */
+        .card { background: #fff; border-radius: 15px; overflow: hidden; margin-bottom: 15px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card-img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .card-info { padding: 12px; }
+        .price { font-size: 1.3rem; font-weight: bold; color: #16a34a; margin-bottom: 5px; }
+        .desc { font-size: 0.9rem; color: #444; line-height: 1.4; margin-bottom: 10px; white-space: pre-wrap; }
+        
+        .chat-btn { width: 100%; padding: 12px; background: #0088cc; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
         /* Форма продажи */
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid var(--blue); border-radius: 10px; box-sizing: border-box; }
-        .btn-sell { background: var(--accent); color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1rem; margin-top: 10px; }
+        .form-box { background: #fff; padding: 20px; border-radius: 20px; border: 2px solid var(--pink); }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
+        .post-btn { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; }
+
+        /* Навигация */
+        nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: #fff; display: flex; border-top: 2px solid var(--pink); }
+        nav div { flex: 1; text-align: center; padding-top: 15px; font-size: 0.8rem; color: #888; font-weight: bold; }
+        nav div.nav-active { color: var(--accent); }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>SPIKECUTE ID 🏐✨</h1>
-</header>
+<header><h1>SPIKEBOARD ID 🏐</h1></header>
 
 <div id="market" class="view active">
-    <div class="grid">
-        <div class="card">
-            <div class="card-img">🏐</div>
-            <div class="card-body">
-                <div class="price">Rp 150.000</div>
-                <div style="font-size: 0.8rem; font-weight: bold;">Nishikawa S+ Max</div>
-                <button style="width: 100%; margin-top: 5px; background: var(--blue); border: none; border-radius: 5px; padding: 5px; color: white;">Beli</button>
-            </div>
+    <div id="ads-container">
         </div>
-        <div class="card">
-            <div class="card-img">⚡</div>
-            <div class="card-body">
-                <div class="price">Rp 50.000</div>
-                <div style="font-size: 0.8rem; font-weight: bold;">Sohee Starter</div>
-                <button style="width: 100%; margin-top: 5px; background: var(--blue); border: none; border-radius: 5px; padding: 5px; color: white;">Beli</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div id="add" class="view">
-    <div style="background: white; padding: 20px; border-radius: 20px; border: 2px solid var(--blue);">
-        <h2 style="text-align: center; color: var(--accent);">Jual Akun Kamu</h2>
-        <input type="text" placeholder="Nama Akun">
-        <input type="number" placeholder="Harga (IDR)">
-        <input type="text" placeholder="WhatsApp / Telegram">
-        <textarea placeholder="Deskripsi Akun (Rank, Gem, dll)"></textarea>
-        <input type="file" multiple>
-        <button class="btn-sell">POSTING SEKARANG</button>
+    <div class="form-box">
+        <h2 style="margin-top:0; color:var(--accent);">Jual Akun</h2>
+        <input type="text" id="p-price" placeholder="Harga (Rp / IDR)">
+        <input type="text" id="p-contact" placeholder="Link Telegram/WhatsApp">
+        <textarea id="p-desc" rows="5" placeholder="Tulis deskripsi lengkap (Nishikawa S+, Gems, Balls, Rank...)"></textarea>
+        <p style="font-size:0.8rem; color:#666;">Foto (Link gambar):</p>
+        <input type="text" id="p-img" placeholder="Paste link foto di здесь">
+        <button class="post-btn" onclick="addPost()">POSTING SEKARANG</button>
     </div>
 </div>
 
 <div id="profile" class="view">
-    <div class="profile-card">
-        <div class="avatar">🐱</div>
-        <h2 style="margin: 10px 0 5px;">Player ID</h2>
-        <p style="color: #888; margin: 0;">Rank: Beginner Trader</p>
-    </div>
-    <div style="margin-top: 20px;">
-        <h3>Iklan Saya (0)</h3>
-        <p style="text-align: center; opacity: 0.5;">Kamu belum jualan что-то...</p>
+    <div style="text-align:center; padding:30px; background:#fff; border-radius:20px;">
+        <div style="font-size:3rem;">👤</div>
+        <h2>My Profile</h2>
+        <button onclick="localStorage.clear(); location.reload();" style="color:red; background:none; border:none;">Hapus Iklan Saya</button>
     </div>
 </div>
 
 <nav>
-    <div onclick="show('market')" id="n-market" class="nav-active"><span>🏠</span>MARKET</div>
-    <div onclick="show('add')" id="n-add"><span>➕</span>JUAL</div>
-    <div onclick="show('profile')" id="n-profile"><span>👤</span>PROFIL</div>
+    <div onclick="show('market')" id="n-market" class="nav-active">🏠 MARKET</div>
+    <div onclick="show('add')" id="n-add">➕ JUAL</div>
+    <div onclick="show('profile')" id="n-profile">👤 PROFIL</div>
 </nav>
 
 <script>
     function show(id) {
-        // Скрыть все вкладки
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        // Показать нужную
         document.getElementById(id).classList.add('active');
-        // Покрасить иконку в меню
         document.querySelectorAll('nav div').forEach(n => n.classList.remove('nav-active'));
         document.getElementById('n-'+id).classList.add('nav-active');
+        if(id === 'market') loadAds();
     }
+
+    function addPost() {
+        const price = document.getElementById('p-price').value;
+        const contact = document.getElementById('p-contact').value;
+        const desc = document.getElementById('p-desc').value;
+        const img = document.getElementById('p-img').value || 'https://via.placeholder.com/400x200?text=No+Photo';
+
+        if(!price || !contact || !desc) return alert("Isi semua data!");
+
+        const newAd = { price, contact, desc, img };
+        let ads = JSON.parse(localStorage.getItem('spikeAds')) || [];
+        ads.unshift(newAd); // Добавляем в начало
+        localStorage.setItem('spikeAds', JSON.stringify(ads));
+
+        alert("Berhasil!");
+        show('market');
+    }
+
+    function loadAds() {
+        const container = document.getElementById('ads-container');
+        let ads = JSON.parse(localStorage.getItem('spikeAds')) || [];
+
+        if(ads.length === 0) {
+            container.innerHTML = '<p style="text-align:center; padding:50px; opacity:0.5;">Belum ada iklan...</p>';
+            return;
+        }
+
+        container.innerHTML = ads.map(ad => `
+            <div class="card">
+                <img src="${ad.img}" class="card-img" onerror="this.src='https://via.placeholder.com/400x200?text=Error+Photo'">
+                <div class="card-info">
+                    <div class="price">Rp ${ad.price}</div>
+                    <div class="desc">${ad.desc}</div>
+                    <a href="${ad.contact}" target="_blank" style="text-decoration:none;">
+                        <button class="chat-btn">ЧАТ С ПРОДАВЦОМ</button>
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    loadAds();
 </script>
 
 </body>
