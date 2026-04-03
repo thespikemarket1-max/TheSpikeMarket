@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpikeMarket ID</title>
+    <title>SpikeBoard ID - Pro</title>
     <style>
         :root { --pink: #ffafcc; --accent: #ff006e; --bg: #fdf2f8; }
         body { margin: 0; font-family: sans-serif; background: var(--bg); padding-bottom: 80px; }
+        header { background: #fff; padding: 15px; text-align: center; border-bottom: 3px solid var(--pink); position: sticky; top: 0; z-index: 100; }
         
-        /* Шапка */
-        header { background: #fff; padding: 15px; text-align: center; border-bottom: 3px solid var(--pink); sticky; top: 0; z-index: 100; }
-        h1 { margin: 0; color: var(--accent); font-size: 1.2rem; }
-
         .view { display: none; padding: 10px; }
-        .active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .active { display: block; }
 
-        /* Карточки как в OLX */
-        .card { background: #fff; border-radius: 15px; overflow: hidden; margin-bottom: 15px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        /* Фильтры как в OLX */
+        .filters { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0 15px; }
+        .f-btn { background: #fff; border: 1px solid var(--pink); padding: 8px 15px; border-radius: 20px; white-space: nowrap; font-size: 0.8rem; }
+
+        /* Карточки */
+        .card { background: #fff; border-radius: 15px; overflow: hidden; margin-bottom: 15px; border: 1px solid #ddd; }
         .card-img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
         .card-info { padding: 12px; }
-        .price { font-size: 1.3rem; font-weight: bold; color: #16a34a; margin-bottom: 5px; }
-        .desc { font-size: 0.9rem; color: #444; line-height: 1.4; margin-bottom: 10px; white-space: pre-wrap; }
-        
-        .chat-btn { width: 100%; padding: 12px; background: #0088cc; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .price { font-size: 1.3rem; font-weight: bold; color: #16a34a; }
 
-        /* Форма продажи */
-        .form-box { background: #fff; padding: 20px; border-radius: 20px; border: 2px solid var(--pink); }
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 10px; box-sizing: border-box; font-size: 1rem; }
-        .post-btn { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 10px; }
+        /* Форма и Профиль */
+        .box { background: #fff; padding: 20px; border-radius: 20px; border: 1px solid var(--pink); }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 10px; box-sizing: border-box; }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-        /* Навигация */
+        /* Смена Аватарки */
+        .profile-header { text-align: center; padding: 20px; }
+        .avatar-main { width: 100px; height: 100px; border-radius: 50%; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 3rem; border: 3px solid var(--pink); object-fit: cover; }
+
         nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: #fff; display: flex; border-top: 2px solid var(--pink); }
         nav div { flex: 1; text-align: center; padding-top: 15px; font-size: 0.8rem; color: #888; font-weight: bold; }
         nav div.nav-active { color: var(--accent); }
@@ -41,27 +41,38 @@
 <header><h1>SPIKEBOARD ID 🏐</h1></header>
 
 <div id="market" class="view active">
-    <div id="ads-container">
-        </div>
+    <div class="filters">
+        <div class="f-btn" onclick="filterAds('all')">Все</div>
+        <div class="f-btn" onclick="filterAds('cheap')">Дешевые</div>
+        <div class="f-btn" onclick="filterAds('sp')">S+ Игроки</div>
+    </div>
+    <div id="ads-container"></div>
 </div>
 
 <div id="add" class="view">
-    <div class="form-box">
+    <div class="box">
         <h2 style="margin-top:0; color:var(--accent);">Jual Akun</h2>
-        <input type="text" id="p-price" placeholder="Harga (Rp / IDR)">
-        <input type="text" id="p-contact" placeholder="Link Telegram/WhatsApp">
-        <textarea id="p-desc" rows="5" placeholder="Tulis deskripsi lengkap (Nishikawa S+, Gems, Balls, Rank...)"></textarea>
-        <p style="font-size:0.8rem; color:#666;">Foto (Link gambar):</p>
-        <input type="text" id="p-img" placeholder="Paste link foto di здесь">
-        <button class="post-btn" onclick="addPost()">POSTING SEKARANG</button>
+        <input type="number" id="p-price" placeholder="Цена (Rp)">
+        <textarea id="p-desc" rows="4" placeholder="Описание (Нишикава, гемы...)"></textarea>
+        
+        <p style="font-size:0.8rem; margin:5px 0;">Добавить фото:</p>
+        <input type="file" id="p-file" accept="image/*" onchange="previewImg(this)">
+        <img id="img-preview" style="width:100%; display:none; border-radius:10px; margin-top:10px;">
+        
+        <button class="btn-main" style="margin-top:20px;" onclick="addPost()">ОПУБЛИКОВАТЬ В OLX</button>
     </div>
 </div>
 
 <div id="profile" class="view">
-    <div style="text-align:center; padding:30px; background:#fff; border-radius:20px;">
-        <div style="font-size:3rem;">👤</div>
-        <h2>My Profile</h2>
-        <button onclick="localStorage.clear(); location.reload();" style="color:red; background:none; border:none;">Hapus Iklan Saya</button>
+    <div class="box profile-header">
+        <div id="user-av" class="avatar-main">👤</div>
+        <input type="file" id="change-av" style="display:none" onchange="updateAvatar(this)">
+        <button onclick="document.getElementById('change-av').click()" style="background:none; border:none; color:var(--accent); font-size:0.7rem;">Сменить фото</button>
+        
+        <h2 id="display-name" onclick="editName()" style="cursor:pointer;">My Profile ✎</h2>
+        <p style="color:#888; font-size:0.8rem;">Нажмите на имя, чтобы изменить</p>
+        
+        <button onclick="localStorage.clear(); location.reload();" style="color:red; background:none; border:none; margin-top:20px;">Hapus Iklan Saya</button>
     </div>
 </div>
 
@@ -72,56 +83,88 @@
 </nav>
 
 <script>
+    let currentPhoto = "";
+
     function show(id) {
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         document.querySelectorAll('nav div').forEach(n => n.classList.remove('nav-active'));
         document.getElementById('n-'+id).classList.add('nav-active');
         if(id === 'market') loadAds();
+        if(id === 'profile') loadProfile();
+    }
+
+    // РАБОТА С ФОТО (ПРЕВЬЮ)
+    function previewImg(input) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            currentPhoto = e.target.result;
+            const img = document.getElementById('img-preview');
+            img.src = currentPhoto;
+            img.style.display = "block";
+        };
+        reader.readAsDataURL(input.files[0]);
     }
 
     function addPost() {
         const price = document.getElementById('p-price').value;
-        const contact = document.getElementById('p-contact').value;
         const desc = document.getElementById('p-desc').value;
-        const img = document.getElementById('p-img').value || 'https://via.placeholder.com/400x200?text=No+Photo';
+        if(!price || !desc || !currentPhoto) return alert("Добавь фото и цену!");
 
-        if(!price || !contact || !desc) return alert("Isi semua data!");
-
-        const newAd = { price, contact, desc, img };
-        let ads = JSON.parse(localStorage.getItem('spikeAds')) || [];
-        ads.unshift(newAd); // Добавляем в начало
-        localStorage.setItem('spikeAds', JSON.stringify(ads));
-
-        alert("Berhasil!");
+        const newAd = { price: parseInt(price), desc, img: currentPhoto, date: Date.now() };
+        let ads = JSON.parse(localStorage.getItem('spikeProAds')) || [];
+        ads.unshift(newAd);
+        localStorage.setItem('spikeProAds', JSON.stringify(ads));
+        alert("Объявление добавлено!");
+        currentPhoto = "";
         show('market');
     }
 
     function loadAds() {
         const container = document.getElementById('ads-container');
-        let ads = JSON.parse(localStorage.getItem('spikeAds')) || [];
-
-        if(ads.length === 0) {
-            container.innerHTML = '<p style="text-align:center; padding:50px; opacity:0.5;">Belum ada iklan...</p>';
-            return;
-        }
-
+        let ads = JSON.parse(localStorage.getItem('spikeProAds')) || [];
         container.innerHTML = ads.map(ad => `
             <div class="card">
-                <img src="${ad.img}" class="card-img" onerror="this.src='https://via.placeholder.com/400x200?text=Error+Photo'">
+                <img src="${ad.img}" class="card-img">
                 <div class="card-info">
-                    <div class="price">Rp ${ad.price}</div>
-                    <div class="desc">${ad.desc}</div>
-                    <a href="${ad.contact}" target="_blank" style="text-decoration:none;">
-                        <button class="chat-btn">ЧАТ С ПРОДАВЦОМ</button>
-                    </a>
+                    <div class="price">Rp ${ad.price.toLocaleString()}</div>
+                    <div style="font-size:0.9rem; color:#444;">${ad.desc}</div>
+                    <button class="btn-main" style="margin-top:10px; background:#0088cc; padding:10px;">ЧАТ С АДМИНОМ</button>
                 </div>
             </div>
         `).join('');
     }
 
-    loadAds();
-</script>
+    // ПРОФИЛЬ (ИМЯ И АВАТАРКА)
+    function editName() {
+        const newName = prompt("Введите ваше имя:");
+        if(newName) {
+            localStorage.setItem('u-name', newName);
+            loadProfile();
+        }
+    }
 
+    function updateAvatar(input) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            localStorage.setItem('u-av', e.target.result);
+            loadProfile();
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    function loadProfile() {
+        const name = localStorage.getItem('u-name') || "My Profile";
+        const av = localStorage.getItem('u-av');
+        document.getElementById('display-name').innerText = name + " ✎";
+        if(av) {
+            document.getElementById('user-av').innerHTML = `<img src="${av}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+        }
+    }
+
+    loadAds();
+    loadProfile();
+</script>
 </body>
 </html>
+
