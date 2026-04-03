@@ -1,176 +1,149 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SpikeBoard ID - Pro</title>
+    <title>SpikeBoard ID - Global Market</title>
     <style>
-        :root { --pink: #ffafcc; --accent: #ff006e; --bg: #fdf2f8; }
-        body { margin: 0; font-family: sans-serif; background: var(--bg); padding-bottom: 80px; }
-        header { background: #fff; padding: 15px; text-align: center; border-bottom: 3px solid var(--pink); position: sticky; top: 0; z-index: 100; }
+        body { font-family: sans-serif; background: #fff0f5; margin: 0; padding-bottom: 70px; }
+        .header { background: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 24px; color: #333; }
         
-        .view { display: none; padding: 10px; }
-        .active { display: block; }
+        /* Кнопки категорий */
+        .categories { display: flex; justify-content: center; gap: 10px; padding: 15px; }
+        .categories button { background: white; border: 1px solid #ffb6c1; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
 
-        /* Фильтры как в OLX */
-        .filters { display: flex; gap: 10px; overflow-x: auto; padding: 5px 0 15px; }
-        .f-btn { background: #fff; border: 1px solid var(--pink); padding: 8px 15px; border-radius: 20px; white-space: nowrap; font-size: 0.8rem; }
+        /* Сетка товаров */
+        .market-container { padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .ad-card { background: white; border-radius: 10px; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .ad-card img { width: 100%; border-radius: 8px; }
+        .ad-price { font-weight: bold; color: #d63384; margin: 5px 0; }
 
-        /* Карточки */
-        .card { background: #fff; border-radius: 15px; overflow: hidden; margin-bottom: 15px; border: 1px solid #ddd; }
-        .card-img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
-        .card-info { padding: 12px; }
-        .price { font-size: 1.3rem; font-weight: bold; color: #16a34a; }
+        /* Чат */
+        #chat-container { padding: 15px; background: white; margin: 10px; border-radius: 10px; height: 200px; overflow-y: auto; border: 1px solid #eee; }
+        .chat-input-area { display: flex; padding: 0 10px; gap: 5px; }
+        .chat-input-area input { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
 
-        /* Форма и Профиль */
-        .box { background: #fff; padding: 20px; border-radius: 20px; border: 1px solid var(--pink); }
-        input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 10px; box-sizing: border-box; }
-        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
-
-        /* Смена Аватарки */
-        .profile-header { text-align: center; padding: 20px; }
-        .avatar-main { width: 100px; height: 100px; border-radius: 50%; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 3rem; border: 3px solid var(--pink); object-fit: cover; }
-
-        nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: #fff; display: flex; border-top: 2px solid var(--pink); }
-        nav div { flex: 1; text-align: center; padding-top: 15px; font-size: 0.8rem; color: #888; font-weight: bold; }
-        nav div.nav-active { color: var(--accent); }
+        /* Нижнее меню */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #eee; }
+        .nav-item { border: none; background: none; font-size: 14px; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
     </style>
 </head>
 <body>
 
-<header><h1>SPIKEBOARD ID 🏐</h1></header>
-
-<div id="market" class="view active">
-    <div class="filters">
-        <div class="f-btn" onclick="filterAds('all')">Все</div>
-        <div class="f-btn" onclick="filterAds('cheap')">Дешевые</div>
-        <div class="f-btn" onclick="filterAds('sp')">S+ Игроки</div>
-    </div>
-    <div id="ads-container"></div>
+<div class="header">
+    <h1>SPIKEBOARD ID 🏐</h1>
 </div>
 
-<div id="add" class="view">
-    <div class="box">
-        <h2 style="margin-top:0; color:var(--accent);">Jual Akun</h2>
-        <input type="number" id="p-price" placeholder="Цена (Rp)">
-        <textarea id="p-desc" rows="4" placeholder="Описание (Нишикава, гемы...)"></textarea>
-        
-        <p style="font-size:0.8rem; margin:5px 0;">Добавить фото:</p>
-        <input type="file" id="p-file" accept="image/*" onchange="previewImg(this)">
-        <img id="img-preview" style="width:100%; display:none; border-radius:10px; margin-top:10px;">
-        
-        <button class="btn-main" style="margin-top:20px;" onclick="addPost()">ОПУБЛИКОВАТЬ В OLX</button>
-    </div>
+<div class="categories">
+    <button>Все</button>
+    <button>Дешевые</button>
+    <button>S+ Игроки</button>
 </div>
 
-<div id="profile" class="view">
-    <div class="box profile-header">
-        <div id="user-av" class="avatar-main">👤</div>
-        <input type="file" id="change-av" style="display:none" onchange="updateAvatar(this)">
-        <button onclick="document.getElementById('change-av').click()" style="background:none; border:none; color:var(--accent); font-size:0.7rem;">Сменить фото</button>
-        
-        <h2 id="display-name" onclick="editName()" style="cursor:pointer;">My Profile ✎</h2>
-        <p style="color:#888; font-size:0.8rem;">Нажмите на имя, чтобы изменить</p>
-        
-        <button onclick="localStorage.clear(); location.reload();" style="color:red; background:none; border:none; margin-top:20px;">Hapus Iklan Saya</button>
-    </div>
+<div class="market-container" id="ads-list">
+    <p style="text-align:center; grid-column: 1/3;">Загрузка объявлений...</p>
 </div>
 
-<nav>
-    <div onclick="show('market')" id="n-market" class="nav-active">🏠 MARKET</div>
-    <div onclick="show('add')" id="n-add">➕ JUAL</div>
-    <div onclick="show('profile')" id="n-profile">👤 PROFIL</div>
-</nav>
+<h3 style="padding-left: 15px;">Глобальный чат</h3>
+<div id="chat-container"></div>
+<div class="chat-input-area">
+    <input type="text" id="chat-msg" placeholder="Напишите сообщение...">
+    <button onclick="sendChat()" style="background: #ffb6c1; border: none; padding: 10px; border-radius: 5px;">Отправить</button>
+</div>
 
-<script>
-    let currentPhoto = "";
-
-    function show(id) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        document.querySelectorAll('nav div').forEach(n => n.classList.remove('nav-active'));
-        document.getElementById('n-'+id).classList.add('nav-active');
-        if(id === 'market') loadAds();
-        if(id === 'profile') loadProfile();
-    }
-
-    // РАБОТА С ФОТО (ПРЕВЬЮ)
-    function previewImg(input) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            currentPhoto = e.target.result;
-            const img = document.getElementById('img-preview');
-            img.src = currentPhoto;
-            img.style.display = "block";
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-
-    function addPost() {
-        const price = document.getElementById('p-price').value;
-        const desc = document.getElementById('p-desc').value;
-        if(!price || !desc || !currentPhoto) return alert("Добавь фото и цену!");
-
-        const newAd = { price: parseInt(price), desc, img: currentPhoto, date: Date.now() };
-        let ads = JSON.parse(localStorage.getItem('spikeProAds')) || [];
-        ads.unshift(newAd);
-        localStorage.setItem('spikeProAds', JSON.stringify(ads));
-        alert("Объявление добавлено!");
-        currentPhoto = "";
-        show('market');
-    }
-
-    function loadAds() {
-        const container = document.getElementById('ads-container');
-        let ads = JSON.parse(localStorage.getItem('spikeProAds')) || [];
-        container.innerHTML = ads.map(ad => `
-            <div class="card">
-                <img src="${ad.img}" class="card-img">
-                <div class="card-info">
-                    <div class="price">Rp ${ad.price.toLocaleString()}</div>
-                    <div style="font-size:0.9rem; color:#444;">${ad.desc}</div>
-                    <button class="btn-main" style="margin-top:10px; background:#0088cc; padding:10px;">ЧАТ С АДМИНОМ</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // ПРОФИЛЬ (ИМЯ И АВАТАРКА)
-    function editName() {
-        const newName = prompt("Введите ваше имя:");
-        if(newName) {
-            localStorage.setItem('u-name', newName);
-            loadProfile();
-        }
-    }
-
-    function updateAvatar(input) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            localStorage.setItem('u-av', e.target.result);
-            loadProfile();
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-
-    function loadProfile() {
-        const name = localStorage.getItem('u-name') || "My Profile";
-        const av = localStorage.getItem('u-av');
-        document.getElementById('display-name').innerText = name + " ✎";
-        if(av) {
-            document.getElementById('user-av').innerHTML = `<img src="${av}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
-        }
-    }
-
-    loadAds();
-    loadProfile();
-</script>
-</body>
-</html>
-
-<div class="market">...</div>
-<button>Купить</button>
+<div class="bottom-nav">
+    <button class="nav-item" onclick="showSection('market')">🏠 MARKET</button>
+    <button class="nav-item" onclick="createAd()">➕ JUAL</button>
+    <button class="nav-item" onclick="googleLogin()">👤 PROFIL / LOGIN</button>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-... (весь остальной текст со скриптами) ...
-</body> </html>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+
+<script>
+  // ТВОИ КЛЮЧИ (Уже вставлены)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDvd9iKXNDea5JnnxUPb-PF_5yssqSWjWs",
+    authDomain: "spikemarket-a2ce6.firebaseapp.com",
+    databaseURL: "https://spikemarket-a2ce6-default-rtdb.firebaseio.com",
+    projectId: "spikemarket-a2ce6",
+    storageBucket: "spikemarket-a2ce6.firebasestorage.app",
+    messagingSenderId: "405255023037",
+    appId: "1:405255023037:web:726d7cc3a1ee344f3e4ad4"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.database();
+
+  // 1. ВХОД ЧЕРЕЗ GOOGLE
+  function googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then((result) => {
+      alert("Привет, " + result.user.displayName + "! Ты вошел.");
+    }).catch((e) => alert("Ошибка входа: " + e.message));
+  }
+
+  // 2. ЧАТ (ОТПРАВКА)
+  function sendChat() {
+    const msg = document.getElementById('chat-msg').value;
+    if (!auth.currentUser) return alert("Сначала войди в профиль!");
+    if (msg.trim() == "") return;
+
+    db.ref('chat').push({
+      name: auth.currentUser.displayName,
+      text: msg,
+      time: Date.now()
+    });
+    document.getElementById('chat-msg').value = "";
+  }
+
+  // 3. ЧАТ (ПОЛУЧЕНИЕ СООБЩЕНИЙ)
+  db.ref('chat').limitToLast(20).on('value', (snap) => {
+    const container = document.getElementById('chat-container');
+    container.innerHTML = "";
+    snap.forEach((child) => {
+      const data = child.val();
+      container.innerHTML += `<p><b>${data.name}:</b> ${data.text}</p>`;
+    });
+    container.scrollTop = container.scrollHeight;
+  });
+
+  // 4. ФУНКЦИЯ СОЗДАНИЯ ОБЪЯВЛЕНИЯ (ДЛЯ КНОПКИ JUAL)
+  function createAd() {
+    if (!auth.currentUser) return alert("Войди в профиль, чтобы продать акк!");
+    const price = prompt("Введите цену (например, 500 сом):");
+    const desc = prompt("Описание (какие S+ игроки есть?):");
+    if (price && desc) {
+      db.ref('ads').push({
+        price: price,
+        desc: desc,
+        seller: auth.currentUser.displayName,
+        image: "https://via.placeholder.com/150" // Заглушка для фото
+      });
+      alert("Объявление выставлено!");
+    }
+  }
+
+  // 5. ЗАГРУЗКА ОБЪЯВЛЕНИЙ НА ЭКРАН
+  db.ref('ads').on('value', (snap) => {
+    const list = document.getElementById('ads-list');
+    list.innerHTML = "";
+    snap.forEach((child) => {
+      const ad = child.val();
+      list.innerHTML += `
+        <div class="ad-card">
+          <img src="${ad.image}">
+          <div class="ad-price">${ad.price}</div>
+          <div style="font-size:12px; color:#666;">${ad.desc}</div>
+          <button style="width:100%; margin-top:5px; border:none; background:#ffb6c1; border-radius:5px;">Купить</button>
+        </div>
+      `;
+    });
+  });
+</script>
+
+</body>
+</html>
