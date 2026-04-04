@@ -3,95 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SpikeMarket - OLX Style</title>
+    <title>SpikeMarket OLX</title>
     <style>
-        /* Общие стили и цвета OLX */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f2f4f5; margin: 0; padding: 0; padding-bottom: 70px; color: #002f34; }
-        * { box-sizing: border-box; }
-        
-        /* Шапка */
+        body { font-family: sans-serif; background-color: #f2f4f5; margin: 0; padding-bottom: 70px; color: #002f34; }
         .header { background: #002f34; color: white; padding: 15px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .header h1 { margin: 0; font-size: 20px; letter-spacing: 1px; }
-        .search-bar { background: white; border-radius: 4px; padding: 8px 10px; margin-top: 10px; color: #777; font-size: 14px; }
-
-        /* Вкладки (Экраны) */
         .tab-content { display: none; padding: 10px; }
         .tab-content.active { display: block; }
-
-        /* Карточки товаров (Маркет) */
         .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .card { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #eaeaeb; }
-        .card-info { padding: 10px; }
-        .card-title { font-size: 14px; margin: 0 0 5px 0; color: #002f34; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .card-price { font-size: 16px; font-weight: bold; margin: 0 0 5px 0; }
-        .card-seller { font-size: 11px; color: #7f9799; }
-
-        /* Экран Чата */
-        .chat-wrapper { display: flex; flex-direction: column; height: calc(100vh - 140px); background: white; border-radius: 4px; }
-        #chat-messages { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .msg { background: #f2f4f5; padding: 10px; border-radius: 8px 8px 8px 0; align-self: flex-start; max-width: 85%; font-size: 14px; }
-        .msg b { font-size: 12px; color: #002f34; display: block; margin-bottom: 3px; }
-        .chat-input { display: flex; padding: 10px; border-top: 1px solid #eaeaeb; background: white; }
-        .chat-input input { flex: 1; padding: 12px; border: 1px solid #eaeaeb; border-radius: 4px; outline: none; font-size: 14px; }
-        .chat-input button { background: #002f34; color: white; border: none; padding: 0 20px; margin-left: 10px; border-radius: 4px; font-weight: bold; }
-
-        /* Нижнее меню (Навигация) */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #eaeaeb; display: flex; justify-content: space-between; padding: 10px 20px; z-index: 100; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; background: none; border: none; color: #002f34; font-size: 11px; font-weight: 500; padding: 0; width: 60px; }
-        .nav-item.active { color: #3a77ff; }
-        .nav-icon { font-size: 20px; margin-bottom: 3px; }
-        
-        /* Кнопка "Подать объявление" */
-        .nav-post { background: #002f34; color: white; border: 4px solid white; border-radius: 50%; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 28px; transform: translateY(-20px); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .card { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 10px; }
+        .card-price { font-weight: bold; font-size: 16px; margin: 5px 0; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #eaeaeb; display: flex; justify-content: space-around; padding: 10px; z-index: 100; }
+        .nav-item { background: none; border: none; font-size: 12px; color: #002f34; display: flex; flex-direction: column; align-items: center; }
+        .nav-post { background: #002f34; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; transform: translateY(-15px); border: 4px solid white; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>SpikeMarket ID</h1>
-        <div style="font-size: 12px;" id="user-status">Гость</div>
+        <h2 style="margin:0; font-size: 18px;">SpikeMarket ID</h2>
+        <div id="user-name" style="font-size: 12px;">Гость</div>
     </div>
 
     <div id="tab-market" class="tab-content active">
-        <div class="search-bar">🔍 Поиск аккаунтов и игроков...</div>
-        <h3 style="font-size: 16px; margin: 15px 0 10px 5px;">Рекомендации для вас</h3>
-        
         <div class="market-grid" id="ads-list">
-            <p style="text-align: center; grid-column: 1/3; color: #777;">Загрузка...</p>
-        </div>
-    </div>
-
-    <div id="tab-chat" class="tab-content">
-        <h3 style="margin-top: 0;">Общий чат трейдеров</h3>
-        <div class="chat-wrapper">
-            <div id="chat-messages">
-                </div>
-            <div class="chat-input">
-                <input type="text" id="chat-text" placeholder="Написать сообщение...">
-                <button onclick="sendChatMessage()">></button>
-            </div>
+            <p style="text-align: center; grid-column: 1/3;">Загрузка объявлений...</p>
         </div>
     </div>
 
     <div class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('market')">
-            <span class="nav-icon">🏠</span>
-            Главная
-        </button>
-        <button class="nav-item" onclick="switchTab('chat')">
-            <span class="nav-icon">💬</span>
-            Чат
-        </button>
-        <button class="nav-post" onclick="createNewAd()">+</button>
-        <button class="nav-item" onclick="alert('Функция избранного в разработке!')">
-            <span class="nav-icon">❤️</span>
-            Избранное
-        </button>
-        <button class="nav-item" onclick="loginWithGoogle()">
-            <span class="nav-icon">👤</span>
-            Профиль
-        </button>
+        <button class="nav-item" onclick="location.reload()">🏠<br>Главная</button>
+        <button class="nav-post" onclick="createAd()">+</button>
+        <button class="nav-item" onclick="login()">👤<br>Войти</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
@@ -99,7 +41,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
     <script>
-        // --- 1. НАСТРОЙКИ FIREBASE ---
+        // Твои настройки из скриншота
         const firebaseConfig = {
             apiKey: "AIzaSyDvd9iKXNDea5JnnxUPb-PF_5yssqSWjWs",
             authDomain: "spikemarket-a2ce6.firebaseapp.com",
@@ -114,121 +56,48 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
-        // Отслеживаем, вошел ли пользователь
+        // Следим за входом
         auth.onAuthStateChanged(user => {
             if (user) {
-                document.getElementById('user-status').innerText = user.displayName;
-            } else {
-                document.getElementById('user-status').innerText = "Гость";
+                document.getElementById('user-name').innerText = user.displayName;
             }
         });
 
-        // --- 2. ЛОГИКА ИНТЕРФЕЙСА (ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК) ---
-        function switchTab(tabName) {
-            document.getElementById('tab-market').classList.remove('active');
-            document.getElementById('tab-chat').classList.remove('active');
-            
-            if(tabName === 'market') {
-                document.getElementById('tab-market').classList.add('active');
-            } else if(tabName === 'chat') {
-                document.getElementById('tab-chat').classList.add('active');
-            }
-        }
-
-        // --- 3. АВТОРИЗАЦИЯ GOOGLE ---
-        function loginWithGoogle() {
+        function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then(res => {
-                alert("Успешный вход! Привет, " + res.user.displayName);
-            }).catch(err => {
-                alert("Ошибка! Ты добавил thespikemarket1-max.github.io в Firebase -> Authentication -> Settings -> Authorized domains?");
-            });
+            auth.signInWithPopup(provider).catch(err => alert("Ошибка: " + err.message));
         }
 
-        // --- 4. СОЗДАНИЕ ОБЪЯВЛЕНИЯ (OLX STYLE) ---
-        function createNewAd() {
-            if (!auth.currentUser) {
-                alert("Пожалуйста, войдите в Профиль, чтобы подать объявление.");
-                loginWithGoogle();
-                return;
-            }
+        function createAd() {
+            if (!auth.currentUser) return alert("Сначала нажми кнопку 'Войти'!");
             
-            const title = prompt("Что продаете? (Например: Аккаунт с Нишикавой)");
-            if (!title) return;
-            const price = prompt("Цена (Например: 500 сом):");
-            if (!price) return;
-
-            // Отправка в базу данных
-            db.ref('ads').push({
-                title: title,
-                price: price,
-                seller: auth.currentUser.displayName,
-                image: "https://via.placeholder.com/300x300.png?text=Spike+Account", // Картинка-заглушка
-                time: new Date().toLocaleDateString()
-            });
-            alert("Объявление успешно опубликовано!");
-            switchTab('market'); // Возвращаем на главную
+            const title = prompt("Что продаешь?");
+            const price = prompt("Цена?");
+            if (title && price) {
+                db.ref('ads').push({
+                    title: title,
+                    price: price,
+                    seller: auth.currentUser.displayName,
+                    time: new Date().toLocaleDateString()
+                }).then(() => alert("Опубликовано!"));
+            }
         }
 
-        // --- 5. ЗАГРУЗКА ОБЪЯВЛЕНИЙ НА ГЛАВНУЮ ---
-        db.ref('ads').on('value', snapshot => {
+        // Загрузка данных
+        db.ref('ads').on('value', snap => {
             const list = document.getElementById('ads-list');
-            list.innerHTML = ""; // Очищаем старое
-            
-            let hasAds = false;
-            snapshot.forEach(child => {
-                hasAds = true;
+            list.innerHTML = "";
+            snap.forEach(child => {
                 const ad = child.val();
-                list.innerHTML = `
+                list.innerHTML += `
                     <div class="card">
-                        <img src="${ad.image}" alt="Item">
-                        <div class="card-info">
-                            <p class="card-title">${ad.title}</p>
-                            <p class="card-price">${ad.price}</p>
-                            <p class="card-seller">${ad.seller} • ${ad.time}</p>
-                        </div>
-                    </div>
-                ` + list.innerHTML; // Новые сверху
-            });
-
-            if (!hasAds) {
-                list.innerHTML = "<p style='grid-column: 1/3; text-align:center;'>Объявлений пока нет. Будь первым!</p>";
-            }
-        });
-
-        // --- 6. ЛОГИКА ЧАТА ---
-        function sendChatMessage() {
-            const input = document.getElementById('chat-text');
-            const text = input.value.trim();
-            
-            if (!auth.currentUser) return alert("Войдите в профиль для общения в чате!");
-            if (!text) return;
-
-            db.ref('chat').push({
-                name: auth.currentUser.displayName,
-                text: text
-            });
-            input.value = ""; // Очистить поле
-        }
-
-        // Слушаем новые сообщения
-        db.ref('chat').limitToLast(30).on('value', snapshot => {
-            const chatBox = document.getElementById('chat-messages');
-            chatBox.innerHTML = "";
-            snapshot.forEach(child => {
-                const msg = child.val();
-                // Если сообщение от нас, можно сделать другой цвет, но пока сделаем единый стиль
-                chatBox.innerHTML += `
-                    <div class="msg">
-                        <b>${msg.name}</b>
-                        ${msg.text}
+                        <div style="font-size:14px;">${ad.title}</div>
+                        <div class="card-price">${ad.price}</div>
+                        <div style="font-size:10px; color:gray;">${ad.seller}</div>
                     </div>
                 `;
             });
-            // Прокрутка чата вниз
-            chatBox.scrollTop = chatBox.scrollHeight;
         });
-
     </script>
 </body>
 </html>
