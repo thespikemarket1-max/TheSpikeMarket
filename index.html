@@ -3,49 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SPIKEBOARD ID</title>
+    <title>SPIKEBOARD ID | MARKET</title>
     <style>
-        :root { --pink: #e91e63; --bg: #fff0f5; --text: #333; }
-        body { font-family: 'Arial', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; color: var(--text); }
+        :root { --pink: #ff006e; --bg: #fff5f8; --card: #ffffff; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: #333; }
         
-        .header { background: white; padding: 15px; text-align: center; border-bottom: 2px solid #ffecf2; position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: bold; font-size: 22px; color: var(--pink); text-transform: uppercase; }
+        /* Шапка */
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 2px solid #ffdeeb; position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: 900; font-size: 20px; color: var(--pink); letter-spacing: 1px; }
+
+        .container { padding: 12px; }
         
-        .container { padding: 15px; }
-        .card-box { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(233, 30, 99, 0.1); margin-bottom: 15px; }
-        h2 { color: var(--pink); margin-top: 0; font-size: 20px; text-align: center; }
+        /* Сетка объявлений */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .product-card { background: var(--card); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; border: 1px solid #eee; }
+        .product-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+        .product-info { padding: 10px; }
+        .product-price { font-size: 16px; font-weight: bold; color: #000; }
+        .product-seller { font-size: 11px; color: #999; margin-top: 4px; }
+
+        /* Окно деталей (Modal) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; overflow-y: auto; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-header { padding: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; }
+        .close-btn { font-size: 30px; cursor: pointer; padding: 5px 15px; }
+        .modal-body { padding: 20px; }
+        .modal-img { width: 100%; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
-        .inp { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; margin-bottom: 10px; font-size: 15px; }
-        .inp:focus { border-color: var(--pink); outline: none; }
-        textarea.inp { height: 90px; resize: none; }
+        /* Кнопки */
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+        .btn-main { background: var(--pink); color: white; }
+        .btn-wa { background: #25D366; color: white; }
+        .btn-guarantor { background: #6f42c1; color: white; }
         
-        /* Кнопка загрузки и предпросмотр */
-        .file-label { display: block; background: #f8f9fa; border: 2px dashed #ddd; padding: 15px; text-align: center; border-radius: 10px; cursor: pointer; color: #777; margin-bottom: 10px; font-weight: bold; }
-        .preview-img { width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; display: none; margin-bottom: 10px; border: 1px solid #eee; }
-        
-        .btn-post { background: var(--pink); color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; }
-        .btn-contact { background: #25D366; color: white; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 5px; }
-        
-        .market-grid { display: flex; flex-direction: column; gap: 15px; }
-        .product { background: white; border-radius: 15px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .product img.ad-img { width: 100%; height: 250px; object-fit: cover; }
-        .product-info { padding: 15px; }
-        .price { font-size: 20px; font-weight: bold; color: #000; margin-bottom: 5px; }
-        .title { font-size: 14px; color: #555; margin-bottom: 10px; line-height: 1.4; }
-        .seller { font-size: 12px; color: #999; border-top: 1px solid #eee; padding-top: 10px; }
-        
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; border-top: 1px solid #eee; height: 60px; }
-        .nav-link { flex: 1; text-align: center; font-size: 10px; color: #999; background: none; border: none; padding-top: 8px; cursor: pointer; }
+        /* Формы */
+        .inp { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 10px; box-sizing: border-box; font-size: 14px; }
+        .file-label { display: block; background: #f0f0f0; border: 2px dashed #ccc; padding: 20px; text-align: center; border-radius: 12px; cursor: pointer; color: #666; margin-bottom: 10px; }
+        .preview-box { width: 100%; height: 150px; object-fit: contain; background: #000; border-radius: 10px; display: none; margin-bottom: 10px; }
+
+        /* Навигация */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; border-top: 1px solid #eee; height: 65px; z-index: 1000; }
+        .nav-link { flex: 1; text-align: center; background: none; border: none; padding-top: 10px; color: #999; font-size: 10px; }
         .nav-link.active { color: var(--pink); font-weight: bold; }
-        .nav-link span { font-size: 20px; display: block; margin-bottom: 2px; }
-        
+        .nav-link b { font-size: 22px; display: block; margin-bottom: 2px; }
+
         .section { display: none; }
         .section.active { display: block; }
-        
-        #chat-box { height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; background: #fafafa; padding: 10px; border-radius: 10px; border: 1px solid #eee; }
-        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 14px; word-wrap: break-word; }
-        .my { align-self: flex-end; background: var(--pink); color: white; border-bottom-right-radius: 2px; }
-        .other { align-self: flex-start; background: #fff; border: 1px solid #ddd; border-bottom-left-radius: 2px; }
+
+        #chat-box { height: 350px; overflow-y: auto; background: #fdfdfd; padding: 10px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 10px; }
+        .msg { margin-bottom: 8px; padding: 8px 12px; border-radius: 12px; max-width: 85%; font-size: 14px; }
+        .msg.my { background: var(--pink); color: white; margin-left: auto; }
+        .msg.other { background: #eee; color: #333; }
     </style>
 </head>
 <body>
@@ -54,63 +62,70 @@
 
 <div class="container">
     <div id="market" class="section active">
-        <div class="market-grid" id="ads-list"></div>
+        <div class="market-grid" id="ads-list">
+            </div>
     </div>
 
     <div id="sell" class="section">
-        <div class="card-box">
-            <h2>Продать Аккаунт</h2>
+        <div class="modal-body" style="background:white; border-radius:20px;">
+            <h2 style="text-align:center; color:var(--pink);">Выставить аккаунт</h2>
             <input type="number" id="add-price" class="inp" placeholder="Цена (Rp)">
-            <input type="text" id="add-contact" class="inp" placeholder="Ссылка на Telegram (t.me/...) или WhatsApp">
-            <textarea id="add-desc" class="inp" placeholder="Описание аккаунта (Nishikawa, Gems...)"></textarea>
+            <input type="text" id="add-contact" class="inp" placeholder="Тг ник (@...) или Ватсап номер">
+            <textarea id="add-desc" class="inp" placeholder="Описание (персонажи, гемы...)"></textarea>
             
-            <label class="file-label" for="file-ad">📷 НАЖМИТЕ, ЧТОБЫ ВЫБРАТЬ ФОТО</label>
-            <input type="file" id="file-ad" hidden accept="image/*" onchange="previewImage(this, 'preview-ad')">
-            <img id="preview-ad" class="preview-img" src="">
+            <label class="file-label" for="file-ad">📸 ВЫБРАТЬ ФОТО ИЗ ГАЛЕРЕИ</label>
+            <input type="file" id="file-ad" hidden accept="image/*" onchange="showPreview(this, 'preview-img')">
+            <img id="preview-img" class="preview-box">
 
-            <button class="btn-post" id="publish-btn" onclick="publishAd()">ОПУБЛИКОВАТЬ</button>
+            <button class="btn btn-main" id="pub-btn" onclick="publishAd()">ОПУБЛИКОВАТЬ</button>
         </div>
     </div>
 
     <div id="chat" class="section">
-        <div class="card-box">
-            <h2>Чат Игроков</h2>
-            <div id="chat-box"></div>
-            <div style="display:flex; gap:5px;">
-                <input type="text" id="chat-in" class="inp" style="margin:0;" placeholder="Написать в чат...">
-                <button class="btn-post" style="width:60px;" onclick="sendMsg()">></button>
-            </div>
+        <div id="chat-box"></div>
+        <div style="display:flex; gap:5px;">
+            <input type="text" id="chat-in" class="inp" placeholder="Сообщение..." style="margin:0;">
+            <button class="btn btn-main" style="width:60px; margin:0;" onclick="sendMsg()">></button>
         </div>
     </div>
 
     <div id="profile" class="section">
-        <div class="card-box" style="text-align:center;">
-            <img id="profile-ava" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); margin-bottom: 10px;">
-            <h2 id="display-name">Игрок</h2>
-            
-            <input type="text" id="set-name" class="inp" placeholder="Твоё новое имя">
-            
-            <label class="file-label" for="file-ava">👤 ИЗМЕНИТЬ АВАТАРКУ</label>
-            <input type="file" id="file-ava" hidden accept="image/*" onchange="previewImage(this, 'preview-ava-img')">
-            <img id="preview-ava-img" class="preview-img" src="">
-
-            <button class="btn-post" id="save-prof-btn" onclick="saveProfile()">СОХРАНИТЬ ПРОФИЛЬ</button>
-            <div style="margin-top: 15px; color: red; cursor: pointer; text-decoration: underline;" onclick="deleteMyAds()">Удалить мои объявления</div>
+        <div style="text-align:center; padding-top:20px;">
+            <img id="my-ava" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid var(--pink);">
+            <h2 id="my-name-display">Игрок</h2>
+            <input type="text" id="new-name" class="inp" placeholder="Сменить имя" style="width:80%;">
+            <label class="file-label" for="file-ava" style="width:70%; margin: 10px auto;">👤 ИЗМЕНИТЬ АВАТАРКУ</label>
+            <input type="file" id="file-ava" hidden accept="image/*" onchange="showPreview(this, 'preview-ava')">
+            <img id="preview-ava" class="preview-box" style="width:100px; height:100px; border-radius:50%; margin:10px auto;">
+            <button class="btn btn-main" style="width:80%; margin:10px auto;" onclick="saveProfile()">СОХРАНИТЬ</button>
+            <p onclick="deleteMyAds()" style="color:red; margin-top:30px; font-size:12px; cursor:pointer;">Удалить мои объявления</p>
         </div>
     </div>
 </div>
 
-<div class="nav">
-    <button class="nav-link active" onclick="go('market')"><span>🏠</span>MARKET</button>
-    <button class="nav-link" onclick="go('chat')"><span>💬</span>ЧАТ</button>
-    <button class="nav-link" onclick="go('sell')"><span>➕</span>ПРОДАТЬ</button>
-    <button class="nav-link" onclick="go('profile')"><span>👤</span>ПРОФИЛЬ</button>
+<div id="ad-modal" class="modal">
+    <div class="modal-header">
+        <div class="logo">ДЕТАЛИ ТОВАРА</div>
+        <div class="close-btn" onclick="closeModal()">×</div>
+    </div>
+    <div id="modal-content" class="modal-body">
+        </div>
 </div>
+
+<nav class="nav">
+    <button class="nav-link active" onclick="go('market')"><b>🏠</b>МАРКЕТ</button>
+    <button class="nav-link" onclick="go('chat')"><b>💬</b>ЧАТ</button>
+    <button class="nav-link" onclick="go('sell')"><b>➕</b>ПРОДАТЬ</button>
+    <button class="nav-link" onclick="go('profile')"><b>👤</b>ПРОФИЛЬ</button>
+</nav>
 
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
+    // ТВОЙ ГАРАНТ (Замени на свою ссылку)
+    const MY_TG = "https://t.me/Arriet_off";
+
     const firebaseConfig = {
         apiKey: "AIzaSyDWUzYltbjHl0vHHxD5Dh6lV8mdmVA5aOQ",
         databaseURL: "https://spikeshop-fdb9d-default-rtdb.firebaseio.com"
@@ -121,39 +136,7 @@
     let uName = localStorage.getItem('uName') || "Игрок";
     let uAva = localStorage.getItem('uAva') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
 
-    // Функция предпросмотра фото (показывает картинку сразу после выбора)
-    function previewImage(input, imgId) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.getElementById(imgId);
-                img.src = e.target.result;
-                img.style.display = 'block';
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    // Сжатие фото перед отправкой (чтобы база не переполнялась)
-    function compressImage(file, callback) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 600; // Сжимаем до 600px
-                const scaleSize = MAX_WIDTH / img.width;
-                canvas.width = MAX_WIDTH;
-                canvas.height = img.height * scaleSize;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                callback(canvas.toDataURL('image/jpeg', 0.7)); // Формат JPG, качество 70%
-            }
-            img.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-
+    // Навигация
     function go(id) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -161,120 +144,151 @@
         event.currentTarget.classList.add('active');
     }
 
-    // Опубликовать объявление (без ImgBB!)
-    function publishAd() {
-        const price = document.getElementById('add-price').value;
-        const desc = document.getElementById('add-desc').value;
-        let contact = document.getElementById('add-contact').value;
-        const file = document.getElementById('file-ad').files[0];
-        const btn = document.getElementById('publish-btn');
-
-        if(!price || !file) return alert("Введите цену и выберите фото!");
-        
-        // Добавляем https:// если пользователь забыл
-        if (contact && !contact.startsWith('http')) { contact = 'https://' + contact; }
-
-        btn.disabled = true; 
-        btn.innerText = "ЗАГРУЗКА...";
-
-        // Сжимаем фото и отправляем прямо в базу
-        compressImage(file, function(base64Image) {
-            db.ref('ads').push({ 
-                p: price, 
-                d: desc, 
-                c: contact, 
-                i: base64Image, 
-                s: uName, 
-                time: Date.now() 
-            }).then(() => {
-                alert("Объявление выставлено!");
-                location.reload();
-            }).catch(e => {
-                alert("Ошибка базы данных!");
-                btn.disabled = false;
-                btn.innerText = "ОПУБЛИКОВАТЬ";
-            });
-        });
-    }
-
-    // Сохранить профиль (Смена аватарки без ссылок)
-    function saveProfile() {
-        const n = document.getElementById('set-name').value;
-        const file = document.getElementById('file-ava').files[0];
-        const btn = document.getElementById('save-prof-btn');
-        btn.disabled = true;
-
-        if(n) localStorage.setItem('uName', n);
-        
-        if(file) {
-            compressImage(file, function(base64Image) {
-                localStorage.setItem('uAva', base64Image);
-                location.reload();
-            });
-        } else {
-            location.reload();
+    // Предпросмотр фото
+    function showPreview(input, imgId) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.getElementById(imgId);
+                img.src = e.target.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
         }
     }
 
-    // Вывод объявлений с кнопкой "Написать продавцу"
-    function renderAds() {
-        db.ref('ads').on('value', snap => {
-            const list = document.getElementById('ads-list'); 
-            list.innerHTML = "";
-            snap.forEach(child => {
-                const a = child.val();
-                // Кнопка связи
-                let contactBtn = '';
-                if(a.c) {
-                    contactBtn = `<button class="btn-contact" onclick="window.open('${a.c}', '_blank')">💬 Написать продавцу</button>`;
-                }
+    // Смарт-ссылка для кнопок связи
+    function createLink(val) {
+        if (!val) return "#";
+        val = val.trim();
+        if (val.startsWith('http')) return val;
+        if (val.startsWith('@')) return `https://t.me/${val.substring(1)}`;
+        if (/^\d+$/.test(val.replace(/\+/g, ''))) return `https://wa.me/${val.replace(/\D/g, '')}`;
+        return `https://t.me/${val}`;
+    }
 
-                list.innerHTML = `
-                <div class="product">
-                    <img src="${a.i}" class="ad-img">
-                    <div class="product-info">
-                        <div class="price">Rp ${a.p}</div>
-                        <div class="title">${a.d}</div>
-                        <div class="seller">Продавец: <b>${a.s}</b></div>
-                        ${contactBtn}
-                    </div>
-                </div>` + list.innerHTML;
-            });
+    // Сжатие картинки (чтобы база не лагала)
+    function processImg(file, callback) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX = 600;
+                let w = img.width, h = img.height;
+                if (w > h) { if (w > MAX) { h *= MAX/w; w = MAX; } }
+                else { if (h > MAX) { w *= MAX/h; h = MAX; } }
+                canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                callback(canvas.toDataURL('image/jpeg', 0.8));
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Публикация
+    function publishAd() {
+        const p = document.getElementById('add-price').value;
+        const d = document.getElementById('add-desc').value;
+        const c = document.getElementById('add-contact').value;
+        const f = document.getElementById('file-ad').files[0];
+        const btn = document.getElementById('pub-btn');
+
+        if(!p || !f) return alert("Нужна цена и фото!");
+        btn.disabled = true; btn.innerText = "ЗАГРУЗКА...";
+
+        processImg(f, (base64) => {
+            db.ref('ads').push({ p, d, c, i: base64, s: uName, time: Date.now() })
+            .then(() => { alert("Готово!"); location.reload(); });
         });
     }
 
-    // Отправка в чат
-    function sendMsg() {
-        const t = document.getElementById('chat-in').value;
-        if(t) { db.ref('chat').push({ n: uName, t: t }); document.getElementById('chat-in').value = ""; }
-    }
-
-    // Чтение чата
-    db.ref('chat').limitToLast(30).on('value', snap => {
-        const box = document.getElementById('chat-box'); 
-        box.innerHTML = "";
-        snap.forEach(c => {
-            const m = c.val();
-            box.innerHTML += `<div class="msg ${m.n==uName ? 'my' : 'other'}"><b>${m.n}:</b><br>${m.t}</div>`;
+    // Рендер маркета
+    db.ref('ads').on('value', snap => {
+        const list = document.getElementById('ads-list');
+        list.innerHTML = "";
+        let data = [];
+        snap.forEach(child => { data.push({id: child.key, ...child.val()}); });
+        data.reverse().forEach(ad => {
+            list.innerHTML += `
+            <div class="product-card" onclick="showDetails('${ad.id}')">
+                <img src="${ad.i}">
+                <div class="product-info">
+                    <div class="product-price">Rp ${ad.p}</div>
+                    <div class="product-seller">Продавец: ${ad.s}</div>
+                </div>
+            </div>`;
         });
-        box.scrollTop = box.scrollHeight; // Автопрокрутка вниз
     });
 
-    // Удаление своих постов
+    // Показ деталей
+    window.showDetails = (id) => {
+        db.ref('ads/' + id).once('value', snap => {
+            const ad = snap.val();
+            const link = createLink(ad.c);
+            document.getElementById('modal-content').innerHTML = `
+                <img src="${ad.i}" class="modal-img">
+                <h1 style="margin:15px 0 5px 0;">Rp ${ad.p}</h1>
+                <p style="color:#666; margin-bottom:15px;">Продавец: <b>${ad.s}</b></p>
+                <div style="background:#f9f9f9; padding:15px; border-radius:12px; font-size:14px; line-height:1.5;">
+                    ${ad.d || 'Описание отсутствует'}
+                </div>
+                <a href="${link}" target="_blank" class="btn btn-wa">💬 НАПИСАТЬ ПРОДАВЦУ</a>
+                <a href="${MY_TG}" target="_blank" class="btn btn-guarantor">🛡️ КУПИТЬ ЧЕРЕЗ ГАРАНТА (5%)</a>
+                <p style="text-align:center; font-size:10px; color:red; margin-top:15px;">
+                    * Не передавайте данные аккаунта без оплаты!
+                </p>
+            `;
+            document.getElementById('ad-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    function closeModal() {
+        document.getElementById('ad-modal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Профиль
+    function saveProfile() {
+        const n = document.getElementById('new-name').value;
+        const f = document.getElementById('file-ava').files[0];
+        if(n) localStorage.setItem('uName', n);
+        if(f) {
+            processImg(f, (base64) => {
+                localStorage.setItem('uAva', base64);
+                location.reload();
+            });
+        } else { location.reload(); }
+    }
+
+    // Чат
+    function sendMsg() {
+        const t = document.getElementById('chat-in').value;
+        if(t) { db.ref('chat').push({ n: uName, t }); document.getElementById('chat-in').value = ""; }
+    }
+
+    db.ref('chat').limitToLast(30).on('value', snap => {
+        const box = document.getElementById('chat-box'); box.innerHTML = "";
+        snap.forEach(c => {
+            const m = c.val();
+            box.innerHTML += `<div class="msg ${m.n==uName?'my':'other'}"><b>${m.n}</b><br>${m.t}</div>`;
+        });
+        box.scrollTop = box.scrollHeight;
+    });
+
     function deleteMyAds() {
         if(confirm("Удалить все твои объявления?")) {
             db.ref('ads').once('value', snap => {
                 snap.forEach(c => { if(c.val().s === uName) c.ref.remove(); });
             });
-            alert("Удалено!");
         }
     }
 
-    // Запуск UI
-    document.getElementById('display-name').innerText = uName;
-    document.getElementById('profile-ava').src = uAva;
-    document.getElementById('set-name').value = uName;
-    renderAds();
+    // Инит
+    document.getElementById('my-name-display').innerText = uName;
+    document.getElementById('my-ava').src = uAva;
 </script>
 </body>
 </html>
