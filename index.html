@@ -8,25 +8,26 @@
         :root { --pink: #ff006e; --bg: #fff0f5; --text: #333; }
         body { font-family: 'Arial', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; color: var(--text); }
         
-        /* Шапка в стиле SPIKEBOARD */
         .header { background: white; padding: 15px; text-align: center; border-bottom: 2px solid #ffecf2; position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: bold; font-size: 22px; color: var(--pink); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Карточки и блоки */
         .container { padding: 15px; }
         .card-box { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(255, 0, 110, 0.1); border: 1px solid #ffecf2; margin-bottom: 15px; }
-        h2 { color: var(--pink); margin-top: 0; font-size: 20px; }
+        h2 { color: var(--pink); margin-top: 0; font-size: 20px; text-align: center; }
 
-        /* Поля ввода (как на скрине 3786) */
         .input-group { margin-bottom: 15px; }
         .inp { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 15px; outline: none; }
         .inp:focus { border-color: var(--pink); }
         textarea.inp { height: 100px; resize: none; }
 
-        /* Кнопка POSTING (Розовая) */
-        .btn-post { background: var(--pink); color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; }
+        /* Стиль для выбора файла */
+        .file-label { display: block; background: #f8f9fa; border: 2px dashed #ddd; padding: 15px; text-align: center; border-radius: 10px; cursor: pointer; color: #777; margin-bottom: 10px; }
+        .file-label:hover { border-color: var(--pink); color: var(--pink); }
+        #file-chosen { font-size: 12px; color: #999; margin-bottom: 10px; display: block; text-align: center; }
 
-        /* Сетка Маркета */
+        .btn-post { background: var(--pink); color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; }
+        .btn-post:disabled { background: #ccc; }
+
         .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .product { background: white; border-radius: 15px; overflow: hidden; position: relative; border: 1px solid #eee; }
         .product img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
@@ -35,31 +36,24 @@
         .title { font-size: 12px; color: #666; height: 30px; overflow: hidden; }
         .fav-btn { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.8); border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; }
 
-        /* ЧАТ */
-        #chat-box { height: 300px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .msg { padding: 8px 12px; border-radius: 15px; max-width: 80%; font-size: 14px; }
-        .msg.my { align-self: flex-end; background: var(--pink); color: white; }
-        .msg.other { align-self: flex-start; background: #f0f0f0; }
+        #chat-box { height: 350px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; background: #fdfdfd; }
+        .msg { padding: 8px 12px; border-radius: 15px; max-width: 85%; font-size: 14px; word-wrap: break-word; }
+        .msg.my { align-self: flex-end; background: var(--pink); color: white; border-bottom-right-radius: 2px; }
+        .msg.other { align-self: flex-start; background: #eee; color: #333; border-bottom-left-radius: 2px; }
 
-        /* Навигация (как на скринах) */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; border-top: 1px solid #eee; }
-        .nav-link { flex: 1; padding: 12px 0; text-align: center; font-size: 10px; color: #999; text-decoration: none; background: none; border: none; cursor: pointer; }
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; border-top: 1px solid #eee; height: 65px; align-items: center; }
+        .nav-link { flex: 1; text-align: center; font-size: 10px; color: #999; border: none; background: none; cursor: pointer; }
         .nav-link.active { color: var(--pink); font-weight: bold; }
-        .nav-link span { font-size: 20px; display: block; }
+        .nav-link span { font-size: 22px; display: block; margin-bottom: 2px; }
 
-        /* Скрытие секций */
         .section { display: none; }
         .section.active { display: block; }
-
-        /* Удаление объявлений (красное) */
-        .delete-link { color: #ff4d4d; font-size: 14px; text-decoration: none; display: block; margin-top: 15px; cursor: pointer; }
+        .delete-link { color: #ff4d4d; font-size: 14px; display: block; margin-top: 20px; cursor: pointer; text-decoration: none; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="logo">SPIKEBOARD ID 🏐</div>
-</div>
+<div class="header"><div class="logo">SPIKEBOARD ID 🏐</div></div>
 
 <div class="container">
     <div id="market" class="section active">
@@ -69,11 +63,15 @@
     <div id="sell" class="section">
         <div class="card-box">
             <h2>Продать Аккаунт</h2>
-            <div class="input-group"><input type="text" id="add-price" class="inp" placeholder="Цена (сом / $) "></div>
-            <div class="input-group"><input type="text" id="add-contact" class="inp" placeholder="Ссылка Telegram/WhatsApp"></div>
-            <div class="input-group"><textarea id="add-desc" class="inp" placeholder="Описание (Nishikawa S+, Gems, Rank...)"></textarea></div>
-            <div class="input-group"><input type="text" id="add-img" class="inp" placeholder="Ссылка на фото товара"></div>
-            <button class="btn-post" onclick="publishAd()">ОПУБЛИКОВАТЬ СЕЙЧАС</button>
+            <div class="input-group"><input type="text" id="add-price" class="inp" placeholder="Цена (сом / $)"></div>
+            <div class="input-group"><input type="text" id="add-contact" class="inp" placeholder="Telegram/WhatsApp ссылка"></div>
+            <div class="input-group"><textarea id="add-desc" class="inp" placeholder="Описание (Nishikawa S+, Gems...)"></textarea></div>
+            
+            <label class="file-label" for="file-ad">📷 Нажмите, чтобы выбрать фото</label>
+            <input type="file" id="file-ad" hidden accept="image/*">
+            <div id="file-chosen">Файл не выбран</div>
+
+            <button class="btn-post" id="publish-btn" onclick="publishAd()">ОПУБЛИКОВАТЬ СЕЙЧАС</button>
         </div>
     </div>
 
@@ -81,20 +79,23 @@
         <div class="card-box">
             <h2>Чат Игроков</h2>
             <div id="chat-box"></div>
-            <div style="display: flex; gap: 5px;">
-                <input type="text" id="chat-in" class="inp" placeholder="Сообщение...">
-                <button class="btn-post" style="width: 60px;" onclick="sendMsg()">></button>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="chat-in" class="inp" placeholder="Ваше сообщение...">
+                <button class="btn-post" style="width: 70px;" onclick="sendMsg()">></button>
             </div>
         </div>
     </div>
 
     <div id="profile" class="section">
         <div class="card-box" style="text-align: center;">
-            <img id="my-ava" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;">
-            <h2 id="my-name-display">My Profile</h2>
-            <div class="input-group"><input type="text" id="set-name" class="inp" placeholder="Твоё имя"></div>
-            <div class="input-group"><input type="text" id="set-ava" class="inp" placeholder="Ссылка на фото"></div>
-            <button class="btn-post" onclick="saveProfile()">Обновить данные</button>
+            <img id="my-ava-img" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--pink); margin-bottom: 15px;">
+            <h2 id="display-name">Мой Профиль</h2>
+            <div class="input-group"><input type="text" id="set-name" class="inp" placeholder="Ваше имя"></div>
+            
+            <label class="file-label" for="file-ava">👤 Сменить фото профиля</label>
+            <input type="file" id="file-ava" hidden accept="image/*">
+
+            <button class="btn-post" id="save-prof-btn" onclick="saveProfile()">Обновить данные</button>
             <span class="delete-link" onclick="deleteMyAds()">Удалить мои объявления</span>
         </div>
     </div>
@@ -115,6 +116,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
 
 <script>
     const firebaseConfig = {
@@ -129,10 +131,16 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    const storage = firebase.storage();
 
-    let myName = localStorage.getItem('uName') || "Игрок";
-    let myAva = localStorage.getItem('uAva') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+    let uName = localStorage.getItem('uName') || "Игрок";
+    let uAva = localStorage.getItem('uAva') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
     let myLikes = JSON.parse(localStorage.getItem('myLikes') || "[]");
+
+    // Выбор файла
+    document.getElementById('file-ad').onchange = e => {
+        document.getElementById('file-chosen').innerText = e.target.files[0].name;
+    };
 
     function go(id) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -141,95 +149,95 @@
         event.currentTarget.classList.add('active');
     }
 
-    function saveProfile() {
-        myName = document.getElementById('set-name').value || myName;
-        myAva = document.getElementById('set-ava').value || myAva;
-        localStorage.setItem('uName', myName);
-        localStorage.setItem('uAva', myAva);
-        location.reload();
+    async function uploadFile(file, path) {
+        const ref = storage.ref().child(path + '/' + Date.now() + '_' + file.name);
+        await ref.put(file);
+        return await ref.getDownloadURL();
     }
 
-    function publishAd() {
+    async function publishAd() {
         const price = document.getElementById('add-price').value;
         const desc = document.getElementById('add-desc').value;
         const contact = document.getElementById('add-contact').value;
-        const img = document.getElementById('add-img').value || "https://via.placeholder.com/150";
+        const file = document.getElementById('file-ad').files[0];
+        const btn = document.getElementById('publish-btn');
 
-        if(price && desc) {
-            db.ref('ads').push({
-                p: price, d: desc, c: contact, i: img, s: myName, time: Date.now()
-            });
-            alert("Объявление выставлено!");
-            go('market');
+        if(!price || !desc || !file) return alert("Заполни всё и выбери фото!");
+
+        btn.disabled = true; btn.innerText = "ЗАГРУЗКА...";
+        try {
+            const url = await uploadFile(file, 'ads');
+            db.ref('ads').push({ p: price, d: desc, c: contact, i: url, s: uName, time: Date.now() });
+            alert("Готово!");
+            location.reload();
+        } catch (e) { alert("Ошибка загрузки!"); btn.disabled = false; }
+    }
+
+    async function saveProfile() {
+        const newName = document.getElementById('set-name').value;
+        const file = document.getElementById('file-ava').files[0];
+        const btn = document.getElementById('save-prof-btn');
+
+        btn.disabled = true;
+        if(newName) localStorage.setItem('uName', newName);
+        if(file) {
+            const url = await uploadFile(file, 'avatars');
+            localStorage.setItem('uAva', url);
         }
+        location.reload();
     }
 
     function toggleLike(id) {
         const idx = myLikes.indexOf(id);
-        if(idx > -1) myLikes.splice(idx, 1);
-        else myLikes.push(id);
+        if(idx > -1) myLikes.splice(idx, 1); else myLikes.push(id);
         localStorage.setItem('myLikes', JSON.stringify(myLikes));
         renderAds();
     }
 
     function sendMsg() {
-        const txt = document.getElementById('chat-in').value;
-        if(txt) {
-            db.ref('chat').push({ n: myName, t: txt });
-            document.getElementById('chat-in').value = "";
-        }
+        const t = document.getElementById('chat-in').value;
+        if(t) { db.ref('chat').push({ n: uName, t: t }); document.getElementById('chat-in').value = ""; }
     }
 
     function renderAds() {
         db.ref('ads').on('value', snap => {
             const list = document.getElementById('ads-list');
-            const favList = document.getElementById('fav-list');
-            list.innerHTML = ""; favList.innerHTML = "";
-            snap.forEach(child => {
-                const ad = child.val();
-                const id = child.key;
+            const fav = document.getElementById('fav-list');
+            list.innerHTML = ""; fav.innerHTML = "";
+            snap.forEach(c => {
+                const a = c.val(); const id = c.key;
                 const isLiked = myLikes.includes(id);
-                const html = `
-                    <div class="product">
-                        <div class="fav-btn" onclick="toggleLike('${id}')">${isLiked ? '❤️' : '🤍'}</div>
-                        <img src="${ad.i}">
-                        <div class="product-info">
-                            <div class="price">${ad.p}</div>
-                            <div class="title">${ad.d}</div>
-                        </div>
-                    </div>`;
-                list.innerHTML = html + list.innerHTML;
-                if(isLiked) favList.innerHTML = html + favList.innerHTML;
+                const h = `<div class="product">
+                    <div class="fav-btn" onclick="toggleLike('${id}')">${isLiked ? '❤️' : '🤍'}</div>
+                    <img src="${a.i}">
+                    <div class="product-info"><div class="price">${a.p}</div><div class="title">${a.d}</div></div>
+                </div>`;
+                list.innerHTML = h + list.innerHTML;
+                if(isLiked) fav.innerHTML = h + fav.innerHTML;
             });
         });
     }
 
-    db.ref('chat').limitToLast(20).on('value', snap => {
-        const box = document.getElementById('chat-box');
-        box.innerHTML = "";
+    db.ref('chat').limitToLast(30).on('value', snap => {
+        const box = document.getElementById('chat-box'); box.innerHTML = "";
         snap.forEach(c => {
-            const m = c.val();
-            const isMe = m.n === myName;
-            box.innerHTML += `<div class="msg ${isMe ? 'my' : 'other'}"><b>${m.n}:</b> ${m.t}</div>`;
+            const m = c.val(); const isMe = m.n === uName;
+            box.innerHTML += `<div class="msg ${isMe ? 'my' : 'other'}"><b>${m.n}</b><br>${m.t}</div>`;
         });
         box.scrollTop = box.scrollHeight;
     });
 
     function deleteMyAds() {
-        if(confirm("Удалить все твои объявления?")) {
+        if(confirm("Удалить твои объявления?")) {
             db.ref('ads').once('value', snap => {
-                snap.forEach(child => {
-                    if(child.val().s === myName) child.ref.remove();
-                });
+                snap.forEach(c => { if(c.val().s === uName) c.ref.remove(); });
             });
-            alert("Твои объявления удалены!");
         }
     }
 
-    document.getElementById('my-name-display').innerText = myName;
-    document.getElementById('my-ava').src = myAva;
-    document.getElementById('set-name').value = myName;
-    document.getElementById('set-ava').value = myAva;
+    document.getElementById('display-name').innerText = uName;
+    document.getElementById('my-ava-img').src = uAva;
+    document.getElementById('set-name').value = uName;
     renderAds();
 </script>
 </body>
