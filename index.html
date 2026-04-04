@@ -3,95 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SpikeShop - Маркет</title>
+    <title>SPIKEBOARD ID</title>
     <style>
-        :root { --main: #002f34; --bg: #f2f4f5; --blue: #3a77ff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--main); }
+        :root { --pink: #ff006e; --bg: #fff0f5; --text: #333; }
+        body { font-family: 'Arial', sans-serif; background: var(--bg); margin: 0; padding-bottom: 70px; color: var(--text); }
         
-        /* Шапка */
-        .header { background: white; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
-        .logo { font-weight: 900; font-size: 22px; color: var(--main); text-decoration: none; letter-spacing: -1px; }
-        .user-badge { display: flex; align-items: center; gap: 10px; cursor: pointer; background: #f8f9fa; padding: 5px 12px; border-radius: 20px; border: 1px solid #eee; }
-        .user-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
-        .user-name { font-size: 13px; font-weight: 600; }
+        /* Шапка в стиле SPIKEBOARD */
+        .header { background: white; padding: 15px; text-align: center; border-bottom: 2px solid #ffecf2; position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: bold; font-size: 22px; color: var(--pink); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Сетка товаров */
-        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: 0.2s; position: relative; }
-        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: #f0f0f0; }
-        .card-info { padding: 10px; }
-        .card-price { font-size: 18px; font-weight: 800; color: #000; margin-bottom: 4px; }
-        .card-title { font-size: 14px; color: #406367; height: 34px; overflow: hidden; line-height: 1.2; margin-bottom: 8px; }
-        .card-seller { font-size: 11px; color: #999; border-top: 1px solid #f0f0f0; padding-top: 5px; }
+        /* Карточки и блоки */
+        .container { padding: 15px; }
+        .card-box { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(255, 0, 110, 0.1); border: 1px solid #ffecf2; margin-bottom: 15px; }
+        h2 { color: var(--pink); margin-top: 0; font-size: 20px; }
 
-        /* Навигация */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; align-items: center; padding: 8px 0; border-top: 1px solid #eaeaeb; z-index: 1000; }
-        .nav-item { border: none; background: none; font-size: 10px; display: flex; flex-direction: column; align-items: center; color: #7f9799; flex: 1; cursor: pointer; }
-        .nav-item.active { color: var(--main); font-weight: bold; }
-        .nav-center { background: var(--main); color: white; width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; transform: translateY(-18px); border: 5px solid var(--bg); box-shadow: 0 4px 12px rgba(0,47,52,0.3); }
+        /* Поля ввода (как на скрине 3786) */
+        .input-group { margin-bottom: 15px; }
+        .inp { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 15px; outline: none; }
+        .inp:focus { border-color: var(--pink); }
+        textarea.inp { height: 100px; resize: none; }
 
-        /* Секции */
-        .page { display: none; padding: 15px; }
-        .page.active { display: block; }
-        .profile-card { background: white; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .profile-card img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--blue); margin-bottom: 15px; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 12px; color: #777; margin-bottom: 5px; }
-        .inp { width: 100%; padding: 12px; border: 1.5px solid #eee; border-radius: 8px; box-sizing: border-box; font-size: 14px; outline: none; }
-        .inp:focus { border-color: var(--blue); }
-        .btn { background: var(--main); color: white; border: none; width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        /* Кнопка POSTING (Розовая) */
+        .btn-post { background: var(--pink); color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; }
+
+        /* Сетка Маркета */
+        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .product { background: white; border-radius: 15px; overflow: hidden; position: relative; border: 1px solid #eee; }
+        .product img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .product-info { padding: 8px; }
+        .price { font-weight: bold; color: #000; font-size: 16px; }
+        .title { font-size: 12px; color: #666; height: 30px; overflow: hidden; }
+        .fav-btn { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.8); border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; }
+
+        /* ЧАТ */
+        #chat-box { height: 300px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .msg { padding: 8px 12px; border-radius: 15px; max-width: 80%; font-size: 14px; }
+        .msg.my { align-self: flex-end; background: var(--pink); color: white; }
+        .msg.other { align-self: flex-start; background: #f0f0f0; }
+
+        /* Навигация (как на скринах) */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; border-top: 1px solid #eee; }
+        .nav-link { flex: 1; padding: 12px 0; text-align: center; font-size: 10px; color: #999; text-decoration: none; background: none; border: none; cursor: pointer; }
+        .nav-link.active { color: var(--pink); font-weight: bold; }
+        .nav-link span { font-size: 20px; display: block; }
+
+        /* Скрытие секций */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* Удаление объявлений (красное) */
+        .delete-link { color: #ff4d4d; font-size: 14px; text-decoration: none; display: block; margin-top: 15px; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <a href="#" class="logo" onclick="showPage('main')">SpikeShop</a>
-    <div class="user-badge" onclick="showPage('profile')">
-        <img id="top-ava" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="user-avatar">
-        <span id="top-name" class="user-name">Гость</span>
+    <div class="logo">SPIKEBOARD ID 🏐</div>
+</div>
+
+<div class="container">
+    <div id="market" class="section active">
+        <div class="market-grid" id="ads-list"></div>
     </div>
-</div>
 
-<div id="main-page" class="page active">
-    <div class="market-grid" id="ads-container">
+    <div id="sell" class="section">
+        <div class="card-box">
+            <h2>Продать Аккаунт</h2>
+            <div class="input-group"><input type="text" id="add-price" class="inp" placeholder="Цена (сом / $) "></div>
+            <div class="input-group"><input type="text" id="add-contact" class="inp" placeholder="Ссылка Telegram/WhatsApp"></div>
+            <div class="input-group"><textarea id="add-desc" class="inp" placeholder="Описание (Nishikawa S+, Gems, Rank...)"></textarea></div>
+            <div class="input-group"><input type="text" id="add-img" class="inp" placeholder="Ссылка на фото товара"></div>
+            <button class="btn-post" onclick="publishAd()">ОПУБЛИКОВАТЬ СЕЙЧАС</button>
         </div>
-</div>
-
-<div id="profile-page" class="page">
-    <div class="profile-card">
-        <img id="p-image" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
-        <div class="input-group">
-            <label>Имя профиля</label>
-            <input type="text" id="p-name-in" class="inp" placeholder="Введите имя">
-        </div>
-        <div class="input-group">
-            <label>Ссылка на аватар</label>
-            <input type="text" id="p-ava-in" class="inp" placeholder="https://...">
-        </div>
-        <button class="btn" onclick="saveProfile()">Сохранить изменения</button>
     </div>
-</div>
 
-<div id="fav-page" class="page">
-    <div style="text-align: center; margin-top: 100px; color: #999;">
-        <h2>❤️</h2>
-        <p>У вас пока нет избранных товаров</p>
+    <div id="chat" class="section">
+        <div class="card-box">
+            <h2>Чат Игроков</h2>
+            <div id="chat-box"></div>
+            <div style="display: flex; gap: 5px;">
+                <input type="text" id="chat-in" class="inp" placeholder="Сообщение...">
+                <button class="btn-post" style="width: 60px;" onclick="sendMsg()">></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile" class="section">
+        <div class="card-box" style="text-align: center;">
+            <img id="my-ava" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;">
+            <h2 id="my-name-display">My Profile</h2>
+            <div class="input-group"><input type="text" id="set-name" class="inp" placeholder="Твоё имя"></div>
+            <div class="input-group"><input type="text" id="set-ava" class="inp" placeholder="Ссылка на фото"></div>
+            <button class="btn-post" onclick="saveProfile()">Обновить данные</button>
+            <span class="delete-link" onclick="deleteMyAds()">Удалить мои объявления</span>
+        </div>
+    </div>
+
+    <div id="favs" class="section">
+        <h2 style="text-align: center;">Мои Лайки ❤️</h2>
+        <div class="market-grid" id="fav-list"></div>
     </div>
 </div>
 
 <div class="nav">
-    <button class="nav-item active" onclick="showPage('main')">🏠<br>Главная</button>
-    <button class="nav-item" onclick="alert('Чат в разработке')">💬<br>Чат</button>
-    <div class="nav-center" onclick="addPost()">+</div>
-    <button class="nav-item" onclick="showPage('fav')">❤️<br>Лайки</button>
-    <button class="nav-item" onclick="showPage('profile')">👤<br>Профиль</button>
+    <button class="nav-link active" onclick="go('market')"><span>🏠</span>MARKET</button>
+    <button class="nav-link" onclick="go('chat')"><span>💬</span>ЧАТ</button>
+    <button class="nav-link" onclick="go('sell')"><span>➕</span>ПРОДАТЬ</button>
+    <button class="nav-link" onclick="go('favs')"><span>❤️</span>ЛАЙКИ</button>
+    <button class="nav-link" onclick="go('profile')"><span>👤</span>ПРОФИЛЬ</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
 <script>
-    // Твои актуальные ключи
     const firebaseConfig = {
         apiKey: "AIzaSyDWUzYltbjHl0vHHxD5Dh6lV8mdmVA5aOQ",
         authDomain: "spikeshop-fdb9d.firebaseapp.com",
@@ -105,77 +130,107 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // Загрузка данных пользователя из памяти телефона
-    let currentUser = localStorage.getItem('userName') || "Игрок";
-    let currentAva = localStorage.getItem('userAva') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+    let myName = localStorage.getItem('uName') || "Игрок";
+    let myAva = localStorage.getItem('uAva') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+    let myLikes = JSON.parse(localStorage.getItem('myLikes') || "[]");
 
-    function updateUI() {
-        document.getElementById('top-name').innerText = currentUser;
-        document.getElementById('top-ava').src = currentAva;
-        document.getElementById('p-image').src = currentAva;
-        document.getElementById('p-name-in').value = currentUser;
-        document.getElementById('p-ava-in').value = currentAva;
+    function go(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        event.currentTarget.classList.add('active');
     }
 
     function saveProfile() {
-        currentUser = document.getElementById('p-name-in').value || "Игрок";
-        currentAva = document.getElementById('p-ava-in').value || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-        localStorage.setItem('userName', currentUser);
-        localStorage.setItem('userAva', currentAva);
-        updateUI();
-        alert("Профиль обновлен!");
-        showPage('main');
+        myName = document.getElementById('set-name').value || myName;
+        myAva = document.getElementById('set-ava').value || myAva;
+        localStorage.setItem('uName', myName);
+        localStorage.setItem('uAva', myAva);
+        location.reload();
     }
 
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId + '-page').classList.add('active');
-        
-        document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-        // Простая логика подсветки кнопок
-    }
+    function publishAd() {
+        const price = document.getElementById('add-price').value;
+        const desc = document.getElementById('add-desc').value;
+        const contact = document.getElementById('add-contact').value;
+        const img = document.getElementById('add-img').value || "https://via.placeholder.com/150";
 
-    function addPost() {
-        const title = prompt("Что вы хотите продать?");
-        const price = prompt("Укажите цену (например, 200 сом):");
-        const img = prompt("Ссылка на фото товара (или оставьте пустым):") || "https://cdn-icons-png.flaticon.com/512/3342/3342137.png";
-
-        if (title && price) {
+        if(price && desc) {
             db.ref('ads').push({
-                title: title,
-                price: price,
-                image: img,
-                seller: currentUser,
-                time: Date.now()
+                p: price, d: desc, c: contact, i: img, s: myName, time: Date.now()
             });
+            alert("Объявление выставлено!");
+            go('market');
         }
     }
 
-    // Слушаем базу данных и выводим товары
-    db.ref('ads').on('value', (snapshot) => {
-        const container = document.getElementById('ads-container');
-        container.innerHTML = "";
-        const data = snapshot.val();
-        
-        if (data) {
-            Object.keys(data).reverse().forEach(id => {
-                const item = data[id];
-                container.innerHTML += `
-                    <div class="card">
-                        <img src="${item.image}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3342/3342137.png'">
-                        <div class="card-info">
-                            <div class="card-price">${item.price}</div>
-                            <div class="card-title">${item.title}</div>
-                            <div class="card-seller">👤 ${item.seller}</div>
-                        </div>
-                    </div>
-                `;
-            });
+    function toggleLike(id) {
+        const idx = myLikes.indexOf(id);
+        if(idx > -1) myLikes.splice(idx, 1);
+        else myLikes.push(id);
+        localStorage.setItem('myLikes', JSON.stringify(myLikes));
+        renderAds();
+    }
+
+    function sendMsg() {
+        const txt = document.getElementById('chat-in').value;
+        if(txt) {
+            db.ref('chat').push({ n: myName, t: txt });
+            document.getElementById('chat-in').value = "";
         }
+    }
+
+    function renderAds() {
+        db.ref('ads').on('value', snap => {
+            const list = document.getElementById('ads-list');
+            const favList = document.getElementById('fav-list');
+            list.innerHTML = ""; favList.innerHTML = "";
+            snap.forEach(child => {
+                const ad = child.val();
+                const id = child.key;
+                const isLiked = myLikes.includes(id);
+                const html = `
+                    <div class="product">
+                        <div class="fav-btn" onclick="toggleLike('${id}')">${isLiked ? '❤️' : '🤍'}</div>
+                        <img src="${ad.i}">
+                        <div class="product-info">
+                            <div class="price">${ad.p}</div>
+                            <div class="title">${ad.d}</div>
+                        </div>
+                    </div>`;
+                list.innerHTML = html + list.innerHTML;
+                if(isLiked) favList.innerHTML = html + favList.innerHTML;
+            });
+        });
+    }
+
+    db.ref('chat').limitToLast(20).on('value', snap => {
+        const box = document.getElementById('chat-box');
+        box.innerHTML = "";
+        snap.forEach(c => {
+            const m = c.val();
+            const isMe = m.n === myName;
+            box.innerHTML += `<div class="msg ${isMe ? 'my' : 'other'}"><b>${m.n}:</b> ${m.t}</div>`;
+        });
+        box.scrollTop = box.scrollHeight;
     });
 
-    updateUI();
-</script>
+    function deleteMyAds() {
+        if(confirm("Удалить все твои объявления?")) {
+            db.ref('ads').once('value', snap => {
+                snap.forEach(child => {
+                    if(child.val().s === myName) child.ref.remove();
+                });
+            });
+            alert("Твои объявления удалены!");
+        }
+    }
 
+    document.getElementById('my-name-display').innerText = myName;
+    document.getElementById('my-ava').src = myAva;
+    document.getElementById('set-name').value = myName;
+    document.getElementById('set-ava').value = myAva;
+    renderAds();
+</script>
 </body>
 </html>
